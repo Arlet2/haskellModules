@@ -18,6 +18,11 @@ instance MatrixLogic Matrix where
         where
             v = map (map (Prelude.* num)) (values m)
 --}
+determinant :: Matrix -> Int
+determinant m = 0
+
+calcSize :: Matrix -> String
+calcSize m = (show . calcRows $ m)++ "x" ++(show . calcCols $ m)
 
 mulNum :: Matrix -> Int -> Matrix
 mulNum m num = Matrix (map (map (* num)) (values m))
@@ -32,9 +37,6 @@ mul :: Matrix -> Matrix -> Matrix
 mul m1 m2 = 
     if calcCols m1 /= calcRows m2 then error "You can't multiple this matrices"
     else Matrix [[1]]
-
-calcSize :: Matrix -> String
-calcSize m = (show . calcRows $ m)++ "x" ++(show . calcCols $ m)
 
 calcCols :: Matrix -> Int
 calcCols m =
@@ -56,6 +58,3 @@ isMatrixCorrect m = True
         rows = length . values $ m
         cols = length . head $ values m
     --}
-
-determinant :: Matrix -> Int
-determinant m = 0
