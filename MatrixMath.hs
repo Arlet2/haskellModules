@@ -20,7 +20,7 @@ instance MatrixLogic Matrix where
 --}
 
 mulNum :: Matrix -> Int -> Matrix
-mulNum m num = Matrix (map (map (Prelude.* num)) (values m))
+mulNum m num = Matrix (map (map (* num)) (values m))
             
 
 add :: Matrix -> Matrix -> Matrix
@@ -51,11 +51,11 @@ calcRows m =
 
 
 isMatrixCorrect :: Matrix -> Bool
-isMatrixCorrect m = 
-    let 
+isMatrixCorrect m = True
+    {--let 
         rows = length . values $ m
         cols = length . head $ values m
-    
-    
+    --}
+
 determinant :: Matrix -> Int
 determinant m = 0
