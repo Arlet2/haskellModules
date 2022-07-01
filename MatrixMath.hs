@@ -19,12 +19,16 @@ instance MatrixLogic Matrix where
             v = map (map (Prelude.* num)) (values m)
 --}
 determinant :: Matrix -> Int
-determinant m =
-    if not (isSquare m) then error "It's not square matrix"
-    else 0
+determinant m
+    | not (isSquare m) = error "It's not square matrix"
+    | isNullMatrix m = 0
+    | otherwise = 1
 
 isSquare :: Matrix -> Bool
 isSquare m = calcCols m == calcRows m
+
+isNullMatrix :: Matrix -> Bool
+isNullMatrix m = calcCols m == 0 && calcRows m == 0
 
 calcSize :: Matrix -> String
 calcSize m = (show . calcRows $ m)++ "x" ++(show . calcCols $ m)
