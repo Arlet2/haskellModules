@@ -26,35 +26,41 @@ calcSize m = (show . calcRows $ m)++ "x" ++(show . calcCols $ m)
 
 mulNum :: Matrix -> Int -> Matrix
 mulNum m num = Matrix (map (map (* num)) (values m))
-            
+
 
 add :: Matrix -> Matrix -> Matrix
-add m1 m2 = 
+add m1 m2 =
     if calcCols m1 /= calcCols m2 || calcRows m1 /= calcRows m2 then error "Matrices have different sizes"
-    else Matrix (map (map (+1)) (values m2))
+    else Matrix [supplyFor2Elements (+) (values m1 !! 0) (values m2 !! 0)]
+
+supplyFor2Elements :: (a -> a -> a) -> [a] -> [a] -> [a]
+supplyFor2Elements _ [] [] = []
+supplyFor2Elements f l1 l2 =
+    f (head l1) (head l2) : supplyFor2Elements f (tail l1) (tail l2)
 
 mul :: Matrix -> Matrix -> Matrix
-mul m1 m2 = 
+mul m1 m2 =
     if calcCols m1 /= calcRows m2 then error "You can't multiple this matrices"
     else Matrix [[1]]
 
 calcCols :: Matrix -> Int
 calcCols m =
-    if not . isMatrixCorrect $ m 
+    if not . isMatrixCorrect $ m
         then error "Matrix is incorrect"
-    else 
+    else
         length . head $ values m
 
 calcRows :: Matrix -> Int
 calcRows m =
-    if not . isMatrixCorrect $ m 
+    if not . isMatrixCorrect $ m
         then error "Matrix is incorrect"
     else length . values $ m
 
 
 isMatrixCorrect :: Matrix -> Bool
-isMatrixCorrect m = True
-    {--let 
+isMatrixCorrect m =
+    True
+    where
         rows = length . values $ m
         cols = length . head $ values m
-    --}
+        
