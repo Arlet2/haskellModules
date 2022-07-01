@@ -33,6 +33,8 @@ add m1 m2 =
     if calcCols m1 /= calcCols m2 || calcRows m1 /= calcRows m2 then error "Matrices have different sizes"
     else Matrix [supplyFor2Elements (+) (values m1 !! 0) (values m2 !! 0)]
 
+
+
 supplyFor2Elements :: (a -> a -> a) -> [a] -> [a] -> [a]
 supplyFor2Elements _ [] [] = []
 supplyFor2Elements f l1 l2 =
@@ -58,9 +60,10 @@ calcRows m =
 
 
 isMatrixCorrect :: Matrix -> Bool
-isMatrixCorrect m =
-    True
+isMatrixCorrect m = all (==cols) (f length (values m))
     where
-        rows = length . values $ m
-        cols = length . head $ values m
+        f :: (a->Int) -> [a] -> [Int]
+        f _ [] = []
+        f g sl = (g . head $ sl) : f g (tail sl)
         
+        cols = length . head $ values m
