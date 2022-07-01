@@ -53,10 +53,10 @@ calcCols m =
         length . head $ values m
 
 calcRows :: Matrix -> Int
-calcRows m =
-    if not . isMatrixCorrect $ m
-        then error "Matrix is incorrect"
-    else length . values $ m
+calcRows m
+  | not . isMatrixCorrect $ m = error "Matrix is incorrect"
+  | not (null (head (values m))) = length . values $ m
+  | otherwise = 0
 
 
 isMatrixCorrect :: Matrix -> Bool
@@ -65,5 +65,5 @@ isMatrixCorrect m = all (==cols) (f length (values m))
         f :: (a->Int) -> [a] -> [Int]
         f _ [] = []
         f g sl = (g . head $ sl) : f g (tail sl)
-        
+
         cols = length . head $ values m
