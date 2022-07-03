@@ -1,4 +1,4 @@
-module MatrixMath (Matrix (Matrix), mulNum, calcSize, determinant) where
+module MatrixMath (Matrix (Matrix), mulNum, calcSize, determinant, trace, tr) where
 newtype Matrix = Matrix {values:: [[Int]]} deriving (Show)
 instance Eq Matrix where
     (==) m1 m2 = (calcRows m1 == calcRows m2) && (calcCols m1 == calcCols m2) && (values m1 == values m2)
@@ -35,6 +35,11 @@ calcSize m = (show . calcRows $ m)++ "x" ++(show . calcCols $ m)
 
 mulNum :: Matrix -> Int -> Matrix
 mulNum m num = Matrix (map (map (* num)) (values m))
+
+trace :: Matrix -> Int
+trace _ = 0
+tr :: Matrix -> Int
+tr = trace
 
 
 add :: Matrix -> Matrix -> Matrix
