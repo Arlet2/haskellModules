@@ -40,18 +40,10 @@ mulNum m num = Matrix (map (map (* num)) (values m))
 add :: Matrix -> Matrix -> Matrix
 add m1 m2 =
     if calcCols m1 /= calcCols m2 || calcRows m1 /= calcRows m2 then error "Matrices have different sizes"
-    else Matrix [[]]--[map (supplyFor2Elements $ (+) ( !! 0) ( !! 1)) [0..(calcCols m1)]]
+    else Matrix (tAdd (values m1) (values m2))
+    where
+        tAdd = zipWith (zipWith (+))
 
-
-{--getPair :: [[a]] -> [[a]] -> [[a]]
-getPair [[]] [[]] = [[]]
-getPair l1 l2 = [head l1, head l2] : getPair (tail l1) (tail l2)--}
-
-supplyFor2Elements :: (a -> a -> a) -> [a] -> [a] -> [a]
-supplyFor2Elements _ [] _ = []
-supplyFor2Elements _ _ [] = []
-supplyFor2Elements f (l1:l1s) (l2:l2s) =
-    f l1 l2 : supplyFor2Elements f l1s l2s
 
 mul :: Matrix -> Matrix -> Matrix
 mul m1 m2 =
