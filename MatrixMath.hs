@@ -1,11 +1,13 @@
-module MatrixMath (Matrix (Matrix), mulNum, calcSize, determinant, trace, tr) where
+module MatrixMath (Matrix (Matrix), mulNum, calcSize, determinant, trace, tr,
+transposeMatrix) where
+import Data.List
 newtype Matrix = Matrix {values:: [[Int]]} deriving (Show)
 instance Eq Matrix where
     (==) m1 m2 = (calcRows m1 == calcRows m2) && (calcCols m1 == calcCols m2) && (values m1 == values m2)
 instance Num Matrix where
     (+) = add
     (*) = mul
-    negate m = mulNum m (-1)
+    negate m = m `mulNum` (-1)
     abs = error "You can't use abs for matrix"
     signum = error "You can't get sign from matrix"
     fromInteger = error "You can't convert integer to matrix"
@@ -18,6 +20,9 @@ instance MatrixLogic Matrix where
         where
             v = map (map (Prelude.* num)) (values m)
 --}
+transposeMatrix :: Matrix -> Matrix
+transposeMatrix m = Matrix (transpose (values m))
+
 determinant :: Matrix -> Int
 determinant m
     | not (isSquare m) = error "It's not square matrix"
