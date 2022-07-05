@@ -1,6 +1,6 @@
 module MatrixMath (Matrix (Matrix), mulNum, calcSize, determinant, trace, tr,
 transposeMatrix) where
-import Data.List
+import Data.List (transpose)
 newtype Matrix = Matrix {values:: [[Int]]} deriving (Show)
 instance Eq Matrix where
     (==) m1 m2 = (calcRows m1 == calcRows m2) && (calcCols m1 == calcCols m2) && (values m1 == values m2)
@@ -42,7 +42,9 @@ mulNum :: Matrix -> Int -> Matrix
 mulNum m num = Matrix (map (map (* num)) (values m))
 
 trace :: Matrix -> Int
-trace _ = 0
+trace m = 
+    if not (isSquare m) then error "It's not square matrix"
+    else 0
 tr :: Matrix -> Int
 tr = trace
 
