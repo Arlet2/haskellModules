@@ -1,9 +1,9 @@
-module MatrixMath (Matrix (Matrix), mulNum, calcSize, determinant, trace, tr,
-transposeMatrix) where
+module MatrixMath (Matrix (Matrix), mulNum, calcSize, transposeMatrix) where
 import Data.List (transpose)
 newtype Matrix = Matrix {values:: [[Int]]} deriving (Show)
 instance Eq Matrix where
-    (==) m1 m2 = (calcRows m1 == calcRows m2) && (calcCols m1 == calcCols m2) && (values m1 == values m2)
+    (==) m1 m2 = 
+        (calcRows m1 == calcRows m2) && (calcCols m1 == calcCols m2) && (values m1 == values m2)
 instance Num Matrix where
     (+) = add
     (*) = mul
@@ -11,23 +11,9 @@ instance Num Matrix where
     abs = error "You can't use abs for matrix"
     signum = error "You can't get sign from matrix"
     fromInteger = error "You can't convert integer to matrix"
-{--
-class Num a => MatrixLogic a where
-    (*) :: a -> Int -> a
 
-instance MatrixLogic Matrix where
-    (*) m num = Matrix v
-        where
-            v = map (map (Prelude.* num)) (values m)
---}
 transposeMatrix :: Matrix -> Matrix
 transposeMatrix m = Matrix (transpose (values m))
-
-determinant :: Matrix -> Int
-determinant m
-    | not (isSquare m) = error "It's not square matrix"
-    | isNullMatrix m = 0
-    | otherwise = 1
 
 isSquare :: Matrix -> Bool
 isSquare m = calcCols m == calcRows m
@@ -40,14 +26,6 @@ calcSize m = (show . calcRows $ m)++ "x" ++(show . calcCols $ m)
 
 mulNum :: Matrix -> Int -> Matrix
 mulNum m num = Matrix (map (map (* num)) (values m))
-
-trace :: Matrix -> Int
-trace m = 
-    if not (isSquare m) then error "It's not square matrix"
-    else 0
-tr :: Matrix -> Int
-tr = trace
-
 
 add :: Matrix -> Matrix -> Matrix
 add m1 m2 =
